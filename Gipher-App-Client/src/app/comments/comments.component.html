@@ -1,0 +1,20 @@
+<form [formGroup]="commentGroup" (ngSubmit)="onAddComment()">
+  <div class="form-group shadow-textarea">
+    <label for="comments">
+      <h4>Comment</h4>
+    </label>
+    <div *ngIf="authService.isAuthenticated(); else notLoggedInSection">
+      <textarea class="form-control z-depth-1" id="comments" [formControl]="commentControl" class="form-control"
+        rows="3" placeholder="Write your comment..."></textarea>
+      <button type="submit" class="btn btn-primary post-comment" style="margin-top: 5px;">Post Comment</button>
+    </div>
+    <ng-template #notLoggedInSection>
+      <h5>You need to be logged in to comment. <a routerLink="/login">Log In</a></h5>
+    </ng-template>
+  </div>
+</form>
+<hr *ngIf="commentsArray.length != 0" />
+<h2 *ngIf="commentsArray.length != 0">Comments</h2>
+<app-comment-card *ngFor="let comment of commentsArray" [comment]="comment" (refreshCommentEvent)="fetchAllComments()">
+</app-comment-card>
+<!-- <app-image></app-image> -->

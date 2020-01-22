@@ -1,0 +1,19 @@
+<mat-card>
+    <!-- <img class="close-icon" src="../assets/close.svg" (click)="deleteComment(comment._id)" /> -->
+    <button *ngIf="isUserAuthenticatedToDelete()" type="button" class="close close-icon" aria-label="Close"
+        (click)="deleteComment(comment._id)">
+        <span aria-hidden=" true">&times;</span>
+    </button>
+    <mat-card-content>
+        {{ comment.content }}
+    </mat-card-content>
+    <mat-card-actions>
+        <button class="btn"
+            [ngClass]="{'btn-outline-primary': (likeText === 'LIKE'), 'btn-primary': (likeText === 'DISLIKE')}"
+            (click)="onLikeClick(comment._id)">
+            {{ likeText }}<span class="badge badge-pill badge-primary"
+                style="margin-left: 5px;">{{ comment.likedBy.length }}</span>
+        </button>
+
+    </mat-card-actions>
+</mat-card>

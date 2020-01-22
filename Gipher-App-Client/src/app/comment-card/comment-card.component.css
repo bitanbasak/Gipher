@@ -1,0 +1,17 @@
+mat-card {
+    margin-top: 5px;
+    margin-bottom: 5px;
+    background-color: rgb(255, 245, 232);
+}
+mat-card-content {
+  margin-top: 10px;
+}
+mat-card-header {
+  padding: 10px;
+}
+.hobby-field {
+  margin-top: 5px;
+}
+.close-icon {
+  float: right;
+}

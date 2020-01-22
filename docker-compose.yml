@@ -1,0 +1,90 @@
+version: '3'
+services:
+#   container for mysql
+  databasemysql:
+    image: mysql:8.0.17
+    restart: always
+    ports:
+      - "3306:3306"
+    container_name: mysql-doc
+    network_mode: host
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: dbuser1
+      MYSQL_PASSWORD: pass
+      MYSQL_DATABASE: giphy
+
+#    container for mongo
+  databasemongo:
+    image: mongo
+    restart: always
+    ports:
+      - "27017:27017"
+    container_name: mongo-con
+    network_mode: host
+    environment:
+      MONGO_DATABASE: giphy
+
+#   container for GipherUserModule service
+  gipherusermodule:
+      build:
+        dockerfile: Dockerfile
+        context:  ./GipherUserModule
+      container_name: GipherUserModule-docker
+      network_mode: host
+      restart: always
+      ports:
+       - "8084:8084"
+      depends_on:
+        - databasemysql
+        
+#   container for GipherCommentModule service
+  giphercommentmodule:
+      build: 
+        dockerfile: Dockerfile
+        context:  ./GipherCommentModule
+      container_name: GipherCommentModule-docker
+      network_mode: host
+      restart: always
+      ports:
+       - "8081:8081"
+      depends_on:
+        - databasemongo
+
+#   container for GipherFavouriteModule service
+  gipherfavouritemodule:
+      build: 
+        dockerfile: Dockerfile
+        context:  ./GipherFavouriteModule
+      container_name: GipherFavouriteModule-docker
+      network_mode: host
+      restart: always
+      ports:
+       - "8082:8082"
+      depends_on:
+        - databasemongo
+
+#   container for GipherRecommendationModule service
+  gipherrecommendationmodule:
+      build: 
+        dockerfile: Dockerfile
+        context:  ./GipherRecommendationModule
+      container_name: GipherRecommendationModule-docker
+      network_mode: host
+      restart: always
+      ports:
+       - "8083:8083"
+      depends_on:
+        - databasemongo
+        
+# container for front end 
+  angular-frontend:
+    build:
+       dockerfile: Dockerfile
+       context:  ./Gipher-App-Client
+    container_name: angular-docker
+    network_mode: host
+    restart: always
+    ports:
+       - "8006:8006"
+    
